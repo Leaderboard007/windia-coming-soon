@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coming Soon - Windia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      animation: fadeIn 2s ease-in;
+    }
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: glow 2s infinite alternate;
+    }
+    h2 {
+      font-size: 2rem;
+      color: #bbb;
+      margin-bottom: 3rem;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00f0ff; }
+      to { text-shadow: 0 0 20px #00fff0, 0 0 30px #0ff; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mines-game {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      margin: 2rem auto;
+      width: 90%;
+      max-width: 500px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .cell {
+      width: 60px;
+      height: 60px;
+      background-color: #1f1f2e;
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .cell.clicked {
+      background-color: #00ffcc;
+      color: #000;
+    }
+    .cell.bomb {
+      background-color: red;
+      color: white;
+    }
+    .controls {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+    button {
+      background-color: #00f0ff;
+      color: #000;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>STAY TUNED</h1>
+    <h2>Something BIG is coming...</h2>
+  </div>
+
+  <div class="mines-game">
+    <h2>Mines Predictor</h2>
+    <div class="grid" id="grid"></div>
+    <div class="controls">
+      <button onclick="startGame()">New Game</button>
+      <button onclick="revealAll()">Reveal</button>
+    </div>
+  </div>
+
+  <script>
+    const gridEl = document.getElementById("grid");
+    let cells = [];
+    let mines = [];
+    const totalCells = 25;
+    const totalMines = 3;
+
+    function startGame() {
+      gridEl.innerHTML = "";
+      cells = [];
+      mines = generateMines();
+
+      for (let i = 0; i < totalCells; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.dataset.index = i;
+        cell.onclick = () => handleClick(cell);
+        gridEl.appendChild(cell);
+        cells.push(cell);
+      }
+    }
+
+    function generateMines() {
+      const indices = Array.from({ length: totalCells }, (_, i) => i);
+      for (let i = indices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]];
+      }
+      return indices.slice(0, totalMines);
+    }
+
+    function handleClick(cell) {
+      const index = parseInt(cell.dataset.index);
+      if (mines.includes(index)) {
+        cell.classList.add("bomb");
+        cell.textContent = "💣";
+        alert("Boom! Game Over.");
+        revealAll();
+      } else {
+        cell.classList.add("clicked");
+        cell.textContent = "✅";
+      }
+      cell.onclick = null;
+    }
+
+    function revealAll() {
+      cells.forEach((cell, index) => {
+        if (mines.includes(index)) {
+          cell.classList.add("bomb");
+          cell.textContent = "💣";
+        } else if (!cell.classList.contains("clicked")) {
+          cell.textContent = "✅";
+          cell.classList.add("clicked");
+        }
+        cell.onclick = null;
+      });
+    }
+
+    // Start on load
+    startGame();
+  </script>
+</body>
+</html>
