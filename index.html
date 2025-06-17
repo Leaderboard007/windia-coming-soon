@@ -26,43 +26,68 @@
       padding-top: 6vh;
       animation: fadeIn 2s ease-in;
     }
-    h1 {
+    h1.glitch {
       font-size: 5rem;
-      margin-bottom: 1rem;
-      color: #0ff;
-      text-shadow:
-        0 0 5px #0ff,
-        0 0 10px #0ff,
-        0 0 20px #0ff,
-        0 0 40px #0ff,
-        0 0 80px #0ff;
-      animation: pulse 2s infinite alternate;
       position: relative;
-      display: inline-block;
-      padding: 20px 40px;
-      border-radius: 20px;
+      color: #0ff;
+      animation: glitch 1.5s infinite;
     }
-    h1::before, h1::after {
-      content: "";
+    h1.glitch::before,
+    h1.glitch::after {
+      content: attr(data-text);
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: 3px solid #0ff;
-      border-radius: 20px;
-      animation: neonBorder 2s infinite linear;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: #0ff;
+      overflow: hidden;
     }
-    h2 {
-      font-size: 2rem;
+    h1.glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 red;
+      animation: glitchTop 2s infinite linear;
+    }
+    h1.glitch::after {
+      left: -2px;
+      text-shadow: -2px 0 blue;
+      animation: glitchBottom 2s infinite linear;
+    }
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: skew(0.5deg, 0.5deg); }
+      40% { transform: skew(-1deg, -1deg); }
+      60% { transform: skew(0.5deg, -0.5deg); }
+      80% { transform: skew(-0.5deg, 0.5deg); }
+      100% { transform: none; }
+    }
+    @keyframes glitchTop {
+      0% { clip-path: inset(0 0 80% 0); }
+      50% { clip-path: inset(10% 0 60% 0); }
+      100% { clip-path: inset(0 0 80% 0); }
+    }
+    @keyframes glitchBottom {
+      0% { clip-path: inset(80% 0 0 0); }
+      50% { clip-path: inset(60% 0 10% 0); }
+      100% { clip-path: inset(80% 0 0 0); }
+    }
+    .typewriter {
       color: #ccc;
-      margin-bottom: 3rem;
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      height: 2.5rem;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #0ff;
+      animation: typing 3s steps(40, end), blink 0.7s step-end infinite;
+      width: 0;
     }
-    @keyframes pulse {
-      from { text-shadow: 0 0 10px #0ff; }
-      to { text-shadow: 0 0 30px #0ff, 0 0 60px #0ff; }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
     }
-    @keyframes neonBorder {
-      0%, 100% { box-shadow: 0 0 10px #0ff; }
-      50% { box-shadow: 0 0 25px #0ff; }
+    @keyframes blink {
+      50% { border-color: transparent }
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
@@ -123,8 +148,8 @@
 </head>
 <body>
   <div class="hero">
-    <h1>STAY TUNED</h1>
-    <h2>Something BIG is coming...</h2>
+    <h1 class="glitch" data-text="STAY TUNED">STAY TUNED</h1>
+    <div class="typewriter">Something BIG is coming...</div>
 
     <div class="mines-game">
       <h2>Mines Predictor</h2>
@@ -147,6 +172,7 @@
       gridEl.innerHTML = "";
       cells = [];
       mines = generateMines();
+
       for (let i = 0; i < totalCells; i++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
