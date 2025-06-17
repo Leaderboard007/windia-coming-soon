@@ -15,16 +15,15 @@
     body {
       background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       color: #fff;
-      height: 100vh;
+      min-height: 100vh;
       overflow-x: hidden;
-    }
-    .hero {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+    }
+    .hero {
       text-align: center;
+      padding: 6rem 1rem 2rem;
       animation: fadeIn 2s ease-in;
     }
     h1 {
@@ -35,7 +34,7 @@
     h2 {
       font-size: 2rem;
       color: #bbb;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     @keyframes glow {
       from { text-shadow: 0 0 10px #00f0ff; }
@@ -45,7 +44,6 @@
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .mines-game {
       display: flex;
       flex-direction: column;
@@ -54,7 +52,7 @@
       background-color: rgba(255, 255, 255, 0.05);
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-      margin: 2rem auto;
+      margin-bottom: 4rem;
       width: 90%;
       max-width: 500px;
     }
@@ -103,14 +101,14 @@
   <div class="hero">
     <h1>STAY TUNED</h1>
     <h2>Something BIG is coming...</h2>
-  </div>
 
-  <div class="mines-game">
-    <h2>Mines Predictor</h2>
-    <div class="grid" id="grid"></div>
-    <div class="controls">
-      <button onclick="startGame()">New Game</button>
-      <button onclick="revealAll()">Reveal</button>
+    <div class="mines-game">
+      <h2>Mines Predictor</h2>
+      <div class="grid" id="grid"></div>
+      <div class="controls">
+        <button onclick="startGame()">New Game</button>
+        <button onclick="revealAll()">Reveal</button>
+      </div>
     </div>
   </div>
 
