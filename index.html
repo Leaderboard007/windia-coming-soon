@@ -20,10 +20,60 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+    }
+    .logo-container {
+      position: relative;
+      margin-top: 30px;
+      width: 200px;
+      height: 200px;
+      z-index: 10;
+    }
+    .logo-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      animation: fadeInLogo 1s ease-out;
+    }
+    .bullet {
+      width: 10px;
+      height: 20px;
+      background: yellow;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: shoot 1s ease-out forwards;
+      z-index: 11;
+    }
+    .smoke {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.postimg.cc/ZqN3RDP7/smoke.png') no-repeat center/contain;
+      opacity: 0;
+      animation: smokeRise 2s ease-in 1s forwards;
+      pointer-events: none;
+    }
+    @keyframes shoot {
+      to {
+        top: 0%;
+        opacity: 0;
+      }
+    }
+    @keyframes smokeRise {
+      0% { opacity: 0; transform: scale(0.5); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+    @keyframes fadeInLogo {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
     }
     .hero {
       text-align: center;
-      padding-top: 6vh;
+      padding-top: 3vh;
       animation: fadeIn 2s ease-in;
     }
     h1.glitch {
@@ -71,26 +121,22 @@
       50% { clip-path: inset(60% 0 10% 0); }
       100% { clip-path: inset(80% 0 0 0); }
     }
-.typewriter {
-  color: #ccc;
-  font-size: 1.5rem;
-  margin-top: 1rem;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid #0ff;
-  width: 22ch;
-  animation: typing 3s steps(40, end), blink 0.7s step-end infinite;
-}
+    .typewriter {
+      color: #ccc;
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #0ff;
+      width: 22ch;
+      animation: typing 3s steps(40, end), blink 0.7s step-end infinite;
+    }
     @keyframes typing {
       from { width: 0 }
-      to { width: 100% }
+      to { width: 22ch }
     }
     @keyframes blink {
       50% { border-color: transparent }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     .mines-game {
       display: flex;
@@ -146,6 +192,12 @@
   </style>
 </head>
 <body>
+  <div class="logo-container">
+    <img src="https://i.postimg.cc/CLyZFS2R/windia-logo.png" alt="Windia Logo" id="logo" />
+    <div class="bullet"></div>
+    <div class="smoke"></div>
+  </div>
+
   <div class="hero">
     <h1 class="glitch" data-text="STAY TUNED">STAY TUNED</h1>
     <div class="typewriter">Something BIG is coming...</div>
